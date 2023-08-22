@@ -7,9 +7,28 @@ const app = express();
 // 없다면 3000번 포트를 이용
 app.set('port', process.env.PORT || 3000);
 
-app.get('/', (req, res) => {
-    //res.send('Hello Express');
-    res.sendFile(path.join(__dirname, '/index.html'));
+
+app.use((req, res, next) => {
+    console.log('모든 요청에 다 실행된다.');
+    next();
+});
+
+// app.get('/', (req, res) => {
+//     //res.send('Hello Express');
+//     res.sendFile(path.join(__dirname, '/index.html'));
+// });
+
+app.get('/', (req, res, next) => {
+    console.log('GET / 요청에서만 실행된다.');
+    next();
+}, (req, res) => {
+    throw new Error('에러는 에러 처리 미들웨어로 간다.')
+});
+
+// 에러 처리 미들웨어
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send(err.message);
 });
 
 // app.set(키, 값) 으로 데이터 저장
