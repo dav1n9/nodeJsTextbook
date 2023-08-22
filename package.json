@@ -1,0 +1,19 @@
+{
+  "name": "nodejstextbook",
+  "version": "1.0.0",
+  "description": "### Node.js교과서 따라하기",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "author": "dav1n9",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.1"
+  }
+}
