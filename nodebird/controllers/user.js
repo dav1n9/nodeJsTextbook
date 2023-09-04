@@ -14,3 +14,21 @@ exports.follow = async (req, res, next) => {
         next(error);
     }
 };
+
+
+// 팔로우 취소하기
+exports.unfollow = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ where: { id: req.user.id } });
+        if(user) {
+            user.removeFollowing(req.params.id);
+            res.send('success');
+        } else {
+            res.status(404).send('no user');
+        }
+    
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
