@@ -52,7 +52,7 @@ class User extends Sequelize.Model {
         });
         db.User.belongsToMany(db.User, {
             foreignKey: 'follwerId',
-            as: 'Follwings',
+            as: 'Followings',
             through: 'Follow',
         });
     }

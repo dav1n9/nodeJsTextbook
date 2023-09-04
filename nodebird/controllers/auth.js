@@ -38,7 +38,6 @@ exports.login = (req, res, next) => {
         if (!user) {    // user값(사용자 정보)이 없다면(.. 인증 실패)
             return res.redirect(`/?loginError=${info.message}`);
         }
-        
         // 로그인에 성공한 경우,
         // req.login()을 사용하여 사용자 정보를 세션에 저장
         return req.login(user, (loginError) => {
