@@ -1,4 +1,4 @@
-const { Post, Hasgtag, Hashtag } = require('../models');
+const { Post, Hashtag } = require('../models');
 
 exports.afterUploadImage = (req, res) => {
     console.log(req.file);
@@ -24,6 +24,29 @@ exports.uploadPost = async (req, res, next) => {
             await post.addHashtags(result.map(r => r[0]));
         }
         res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+// 게시글 삭제
+exports.deletePost = async (req, res, next) => {
+    console.log('req.params.postId', req.params.postId);
+    console.log('req.user.id', req.user.id);
+    try {
+        const post = await Post.findOne({ 
+            where: { 
+                id: req.params.postId,
+                UserId: req.user.id,
+             } 
+        });
+        if (post) {
+            post.destroy();
+            res.send('success');
+        } else {
+            res.status(404).send('no post');
+        }
     } catch (error) {
         console.error(error);
         next(error);
