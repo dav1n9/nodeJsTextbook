@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
-const { join, login, logout } = require('../controllers/auth');
+const { join, login, logout, checkPwd, update } = require('../controllers/auth');
 
 const router = express.Router();
 
@@ -24,5 +24,12 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 }), ( req, res ) => {
     res.redirect('/');  // 성공 시에는 /로 이동
 });
+
+// POST /auth/checkPwd
+router.post('/checkPwd', isLoggedIn, checkPwd);
+
+
+// POST /auth/update
+router.post('/update', isLoggedIn, update);
 
 module.exports = router;

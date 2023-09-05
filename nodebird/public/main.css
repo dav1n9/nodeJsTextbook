@@ -108,8 +108,9 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   font-size: 12px;
   cursor: pointer;
 }
-.twit-delete, .twit-update {
+.twit-delete, .twit-update, .profile-update {
   padding: 1px 5px;
+  margin-left: 5px;
   background: #fff;
   border: 1px solid silver;
   border-radius: 5px;
@@ -124,4 +125,5 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 #search-form { text-align: right; }
 #join-form { padding: 10px; text-align: center; }
 #hashtag-form { text-align: right; }
+#profile-update-form { display: none; }
 footer { text-align: center; }

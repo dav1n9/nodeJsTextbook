@@ -57,3 +57,38 @@ exports.logout = (req, res) => {
         res.redirect('/');
     });
 };
+
+// 비밀번호 확인
+exports.checkPwd = async (req, res, next) => {
+    const { password } = req.body;
+    const exUser = await User.findOne({ where: { id: req.user.id, } });
+    if (exUser) {
+        const result = await bcrypt.compare(password, exUser.password);
+        if (result) {
+            return res.send({ isCorrected : true });
+        }
+    }
+    return res.send({ isCorrected : false });
+
+}
+
+// 프로필 수정
+exports.update = async (req, res, next) => {
+    const{ email, nick, password } = req.body;
+    console.log(req.body);
+
+    const exUser = await User.findOne({ where: { id: req.user.id, } });
+    if (exUser) {
+        exUser.update({ 
+            email: email,
+            nick: nick,
+        });  
+        if(password.length !== 0 && password !== null) {    
+            const hash = await bcrypt.hash(password, 12);
+            exUser.update({ password: hash });
+        }
+        
+        return res.redirect('/');
+    }
+    return res.redirect('/profile?error=exist');  
+}

@@ -4,8 +4,23 @@
 
 {% block content %}
   <div class="timeline">
+    <h1>My Profile<button class="profile-update">프로필 수정</button></h1>
+    <!-- form 태그는  GET, POST 방식만 가능 -->
+    <form id="profile-update-form" action="/auth/update" method="post">
+      <div class="input-group">
+        <label for="update-email">이메일</label>
+        <input id="update-email" type="email" name="email" value={{user.email}}></div>
+      <div class="input-group">
+        <label for="update-nick">닉네임</label>
+        <input id="update-nick" type="text" name="nick" value={{user.nick}}></div>
+      <div class="input-group">
+        <label for="update-password">새로운 비밀번호</label>
+        <input id="update-password" type="password" name="password">
+      </div>
+      <button id="profile-update-btn" type="submit" class="btn">변경</button>
+    </form>
     <div class="followings half">
-      <h2>팔로잉 목록</h2>
+      <h2>🤍팔로잉 목록</h2>
       {% if user.Followings %}
         {% for following in user.Followings %}
           <div>{{following.nick}}</div>
@@ -13,7 +28,7 @@
       {% endif %}
     </div>
     <div class="followers half">
-      <h2>팔로워 목록</h2>
+      <h2>🤍팔로워 목록</h2>
       {% if user.Followers %}
         {% for follower in user.Followers %}
           <div>{{follower.nick}}</div>
@@ -21,4 +36,35 @@
       {% endif %}
     </div>
   </div>
+
+  <script>
+    // 프로필 수정 폼 보이기/숨기기
+    document.querySelector('.profile-update').addEventListener('click', function() {
+      
+      const form = document.querySelector('#profile-update-form');
+
+      if (form.style.display !== 'none') {
+        form.style.display = 'none';
+      } else {
+        const pwd = prompt('프로필을 수정하시겠습니까? \n비밀번호를 입력해주세요.');
+        if (pwd == "" || pwd == null) {
+          return pop();
+        } else {
+          axios.post(`/auth/checkPwd`, { password: pwd })
+              .then(function (res) {
+                console.log(res.data.isCorrected);
+                if (res.data.isCorrected) {
+                  form.style.display = 'block';
+                } else {
+                  alert("비밀번호가 틀렸습니다.");
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+        }
+      }
+    });
+
+  </script>
 {% endblock %}
