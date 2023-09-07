@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const { afterUploadImage, uploadPost, deletePost } = require('../controllers/post');
+const { afterUploadImage, uploadPost, deletePost, likePost, unlikePost } = require('../controllers/post');
 const { isLoggedIn } = require('../middlewares');
 
 const router = express.Router();
@@ -37,6 +37,12 @@ router.post('/', isLoggedIn, upload2.none(), uploadPost);
 
 // DELETE /post/:postId/delete
 router.delete('/:postId/delete', isLoggedIn, deletePost);
+
+// POST /post/:postId/like  // 좋아요
+router.post('/:postId/like', isLoggedIn, likePost);
+
+// POST /post/:postId/unlike  // 좋아요 취소
+router.post('/:postId/unlike', isLoggedIn, unlikePost);
 
 
 module.exports = router;

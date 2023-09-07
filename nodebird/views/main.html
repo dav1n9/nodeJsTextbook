@@ -29,14 +29,15 @@
         </form>
         {% for twit in twits %}
           <div class="twit">
-            <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+            <input type="hidden" value="{{twit.Author.id}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">{{twit.User.nick}}</div>
+            <input type="hidden" value="{{twit.Likers}}" class="twit-likers">
+            <div class="twit-author">{{twit.Author.nick}}</div>
 
-            {% if twit.User.id !== user.id %}
-              {% if not followingIdList.includes(twit.User.id) %}
+            {% if twit.Author.id !== user.id %}
+              {% if not followingIdList.includes(twit.Author.id) %}
                 <button class="twit-follow">팔로우하기</button>
-              {% elif followingIdList.includes(twit.User.id) %}
+              {% elif followingIdList.includes(twit.Author.id) %}
                 <button class="twit-unfollow">팔로우취소</button>
               {% endif %}
             {% else %}
@@ -47,6 +48,23 @@
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
+
+            <p></p>
+
+            <!-- 좋아요 버튼 / 좋아요 갯수 -->
+            {% set isLiked = false %}
+            {% for liker in twit.Likers %}
+              {% if liker.id == user.id %}
+                {% set isLiked = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% if isLiked %}
+              <button class="unlike" id="unlikeBtn">좋아요 취소</button>
+            {% else %}
+              <button class="like" id="likeBtn">좋아요</button>
+            {% endif %}
+            <div class="like-count">❤️ likes {{twit.Likers.length}}</div>
           </div>
         {% endfor %}
       </div>
@@ -133,5 +151,47 @@
         }
       });
     });
+
+    // 좋아요 누르기
+    document.querySelectorAll('.like').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const likeBtn = document.getElementById('likeBtn');
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const postId = tag.parentNode.querySelector('.twit-id').value;
+
+          if (likeBtn.innerText === "좋아요") {
+            axios.post(`post/${postId}/like`)
+               .then(() => {
+                 location.reload();
+               })
+               .catch((err) => {
+                 console.error(err);
+               });
+          }
+        }
+      });
+    });
+
+    // 좋아요취소 누르기
+    document.querySelectorAll('.unlike').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const unlikeBtn = document.getElementById('unlikeBtn');
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const postId = tag.parentNode.querySelector('.twit-id').value;
+          if (unlikeBtn.innerText === "좋아요 취소") {
+            axios.post(`post/${postId}/unlike`)
+               .then(() => {
+                 location.reload();
+               })
+               .catch((err) => {
+                 console.error(err);
+               });
+            }
+        }
+      });
+    });
+
   </script>
 {% endblock %}

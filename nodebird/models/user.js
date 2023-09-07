@@ -55,6 +55,10 @@ class User extends Sequelize.Model {
             as: 'Followings',
             through: 'Follow',
         });
+
+        // 좋아요 기능
+        // N(User) : M(Post) 관계
+        db.User.belongsToMany(db.Post, { through: 'LikeList'});
     }
 };
 

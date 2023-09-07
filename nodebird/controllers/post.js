@@ -52,3 +52,45 @@ exports.deletePost = async (req, res, next) => {
         next(error);
     }
 };
+
+// 좋아요
+exports.likePost = async (req, res, next) => {
+    try {
+        const post = await Post.findOne({
+            where: { id: req.params.postId },
+        });
+        if(post) {
+            post.addLikers(req.user.id);
+            const id = await post.getLikers();
+            console.log('Likers Id', id);
+            res.send('success to like');
+        } else {
+            res.status(404).send('no like');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+
+};
+
+// 좋아요 취소
+exports.unlikePost = async (req, res, next) => {
+    try {
+        const post = await Post.findOne({
+            where: { id: req.params.postId },
+        });
+        if (post) {
+            post.removeLikers(req.user.id);
+            const id = await post.getLikers();
+            console.log('Likers Id', id);
+            
+            res.send('success to unlike');
+        } else {
+            res.status(404).send('no unlike');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+}
