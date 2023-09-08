@@ -2,16 +2,15 @@
 Node.js교과서 따라하기
 
 
-### 4장 : 
+### 💡4장 : 
 
-### 6장 : 
+### 💡6장 : 
 
-### 7장 : MySQL
-### [learn-sequelize](https://github.com/dav1n9/nodeJsTextbook/tree/main/learn-sequelize)
+### 💡7장 [learn-sequelize](https://github.com/dav1n9/nodeJsTextbook/tree/main/learn-sequelize)
+MySQL, sequelize
 
-### 9장 : 익스프레스로 SNS 서비스 만들기
-### [nodebird](https://github.com/dav1n9/nodeJsTextbook/tree/main/nodebird)
-
+### 💡9장 [nodebird](https://github.com/dav1n9/nodeJsTextbook/tree/main/nodebird)
+#### 익스프레스로 SNS 서비스 만들기
 [기능]  
 
 * 회원가입, 로그인(local, kakao)
@@ -29,4 +28,10 @@ Node.js교과서 따라하기
 - [ ] 매번 데이터베이스를 조회하지 않도록 deserializeUser 캐싱하기
 
 
-### 10장 : 웹 API 서버 만들기
+### 💡10장 [nodebird-api](https://github.com/dav1n9/nodeJsTextbook/tree/main/nodebird-api), [nodecat]()
+#### 웹 API 서버 만들기
+
+#### 1. nodebird-api
+* API 서비스를 제공하는 입장
+#### 2. nodecat
+* API 사용자 입장 (클라이언트)
