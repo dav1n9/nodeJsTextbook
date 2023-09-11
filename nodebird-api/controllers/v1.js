@@ -40,5 +40,8 @@ exports.createToken = async (req, res) => {
 };
 
 exports.tokenTest = (req, res) => {
+    // res.locals.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    // jwt.verify 메소드로 토큰 검증
+    // 인증에 성공한 경우, 토큰의 내용이 반환되어 res.locals.decoded에 반환됨.
     res.json(res.locals.decoded);
 };
