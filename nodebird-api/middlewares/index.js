@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 // 로그인 여부를검사하는 미들웨어
 exports.isLoggedIn = (req, res, next) => {
@@ -35,4 +36,23 @@ exports.verifyToken = (req, res, next) => {
             message: '유효하지 않은 토큰입니다.',
         });
     }
+};
+
+// 사용량 제한
+exports.apiLimiter = rateLimit({
+    windowMs: 60 * 1000, // 기준 시간 : 1분
+    max: 10,     // 허용 횟수
+    handler(req, res) {
+        res.status(this.statusCode).json({
+            code: this.statusCode,  // 기본값 429
+            message: '1분에 열 번만 요청할 수 있습니다.',
+        });
+    },
+});
+
+exports.deprecated = (req, res) => {
+    res.status(410).json({
+        code: 410,
+        message: '새로운 버전이 나왔습니다. 새로운 버전을 사용하세요.',
+    });
 };
