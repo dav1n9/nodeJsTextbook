@@ -12,9 +12,9 @@ router.post('/token', createToken);
 router.get('/test', verifyToken, tokenTest);
 
 // GET /v1/posts/my
-router.get('posts/my', verifyToken, getMyPosts);
+router.get('/posts/my', verifyToken, getMyPosts);
 
 // GET /v1/posts/hashtag/:title
-router.get('posts/hashtag/:title', verifyToken, getPostsByHashtag);
+router.get('/posts/hashtag/:title', verifyToken, getPostsByHashtag);
 
 module.exports = router;
