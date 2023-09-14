@@ -86,3 +86,43 @@ exports.getPostsByHashtag = async (req, res) => {
         });
     }
 };
+
+
+// 팔로워나 팔로잉 목록 가져오기
+exports.getFollowings = async (req, res) => {
+    try {
+        const user = await User.findOne({ where: { id: res.locals.decoded.id } });
+        if (user) {
+            const followings = await user.getFollowings();
+            return res.json({
+                code: 200,
+                followings,
+            })
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            code: 500,
+            message: '서버 에러',
+        });
+    }
+};
+
+exports.getFollowers = async (req, res) => {
+    try {
+        const user = await User.findOne({ where: { id: res.locals.decoded.id } });
+        if (user) {
+            const followers = await user.getFollowers();
+            return res.json({
+                code: 200,
+                followers,
+            })
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            code: 500,
+            message: '서버 에러',
+        });
+    }
+};

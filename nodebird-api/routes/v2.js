@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { verifyToken, apiLimiter, corsWhenDomainMatches } = require('../middlewares');
-const { createToken, tokenTest, getMyPosts, getPostsByHashtag } = require('../controllers/v2');
+const { createToken, tokenTest, getMyPosts, getPostsByHashtag, getFollowings, getFollowers } = require('../controllers/v2');
 
 const router = express.Router();
 
@@ -18,5 +18,14 @@ router.get('/posts/my', apiLimiter, verifyToken, getMyPosts);
 
 // GET /v2/posts/hashtag/:title
 router.get('/posts/hashtag/:title', apiLimiter, verifyToken, getPostsByHashtag);
+
+
+// 팔로워나 팔로잉 목록 가져오기
+// GET /v2/users/following
+router.get('/users/following', apiLimiter, verifyToken, getFollowings);
+
+// GET /v2/users/follower
+router.get('/users/follower', apiLimiter, verifyToken, getFollowers);
+
 
 module.exports = router;
