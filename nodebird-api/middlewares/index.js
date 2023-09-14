@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
+const { Domain } = require('../models');
 
 // 로그인 여부를검사하는 미들웨어
 exports.isLoggedIn = (req, res, next) => {
@@ -55,4 +57,18 @@ exports.deprecated = (req, res) => {
         code: 410,
         message: '새로운 버전이 나왔습니다. 새로운 버전을 사용하세요.',
     });
+};
+
+exports.corsWhenDomainMatches = async (req, res, next) => {
+    const domain = await Domain.findOne({
+        where: { host: new URL(req.get('origin')).host },
+    });
+    if (domain) {
+        cors({
+            origin: req.get('origin'),
+            credentials: true,
+        })(req, res, next);
+    } else {
+        next();
+    }
 };
