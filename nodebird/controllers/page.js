@@ -48,7 +48,7 @@ exports.renderHashtag = async (req, res, next) => {
         const hashtag = await Hashtag.findOne({ where: { title: query } });
         let posts = [];
         if (hashtag) {
-            posts = await hashtag.getPosts({ include: [{ model: User }] });
+            posts = await hashtag.getPosts();
         }
         
         return res.render('main', {
